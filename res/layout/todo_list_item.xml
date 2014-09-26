@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:id="@+id/entry_main_info"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:alpha="1.0">
+	    <CheckBox
+	        android:id="@+id/entry_done_checkbox"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentTop="true" />
+	
+	    <TextView
+	        android:id="@+id/entry_title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignBottom="@+id/entry_done_checkbox"
+	        android:layout_alignParentRight="true"
+	        android:layout_toRightOf="@+id/entry_done_checkbox"
+	        android:text="Todo Title"
+	        android:textSize="20sp" />
+	
+	    <TextView
+	        android:id="@+id/entry_body"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentRight="true"
+	        android:layout_below="@+id/entry_done_checkbox"
+	        android:layout_marginLeft="14dp"
+	        android:text="Some body text blah blah blah. Line number two... testing." />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/entry_edit_control_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/entry_main_info"
+        android:layout_alignParentRight="true"
+        android:background="@color/editbg"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:layout_marginRight="10dp"
+        android:alpha="0.7"
+        android:layout_marginTop="10dp" >
+
+        <ImageButton
+            android:id="@+id/entry_edit_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="95dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/pencil43"
+            android:layout_marginLeft="10dp" />
+        
+        <ImageButton
+            android:id="@+id/entry_archive_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="95dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/open131" />
+        
+        <ImageButton
+            android:id="@+id/entry_delete_button"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="95dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/delete48" />
+    </LinearLayout>
+
+</RelativeLayout>
