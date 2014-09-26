@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import android.util.Log;
+
 public class TodoItemManager {
 	// IOFailed and Updated listeners
 	public interface IOFailedListener {
@@ -43,6 +45,9 @@ public class TodoItemManager {
 				mTodoItemList.add(item);
 				mNextTodoItemId = Math.max(mNextTodoItemId, item.getId() + 1);
 			}
+			
+			// Notify listeners
+			notifyUpdated();
 		} catch (IOException e) {
 			System.out.printf("Loading list items failed: " + e.getMessage());
 			
@@ -51,11 +56,13 @@ public class TodoItemManager {
 			
 			// Leave the todo list empty
 		}
+		Log.i("test", "Load Todo Item List (" + mTodoItemList.size() + ")");
 	}
 	
 	// Save out items to the data store
 	// Notify IOFailure listeners and leave the record list unsaved on failure
 	public void saveTodoItemList() {
+		Log.i("test", "Save Todo Item List (" + mTodoItemList.size() + ")");
 		try {
 			// Save my current list of items
 			mTodoDataStore.saveTodoItems(mTodoItemList);
@@ -70,6 +77,15 @@ public class TodoItemManager {
 	// must be used to modify the underlying data.
 	public List<TodoItem> getTodoItemList() {
 		return Collections.unmodifiableList(mTodoItemList);
+	}
+	
+	// Get an item by it's ItemId
+	public TodoItem getTodoItemById(int id) {
+		for (TodoItem item: mTodoItemList) {
+			if (item.getId() == id)
+				return item;
+		}
+		return null;
 	}
 	
 	// Mark a given item as dirty, triggering an Updated message.

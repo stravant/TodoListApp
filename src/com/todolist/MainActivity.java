@@ -5,10 +5,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -16,7 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends FragmentActivity {
 	// The main view for our activity, which is a pager
 	// between a main page of our active todos, and separate page
 	// of archived todos.
@@ -39,16 +40,6 @@ public class MainActivity extends ActionBarActivity {
         // Set up our state
         mDataStore = new TodoItemDataStore(this, "todo_data.sav");
         mItemManager = new TodoItemManager(mDataStore);
-        
-        // Debug add some entries
-        if (true) {
-        	mItemManager.loadTodoItemList();
-	        while (mItemManager.getTodoItemList().size() < 3) {
-	        	mItemManager.addTodoItem(new TodoItem(0, new Date(), "Test Title", 
-	        		"Test body blah blah balh. Testing 123. Another line of text", false, false));
-	        }
-	        mItemManager.saveTodoItemList();
-        }
         
         // Create the main UI
         setContentView(R.layout.activity_main);
@@ -81,7 +72,7 @@ public class MainActivity extends ActionBarActivity {
     
     @Override
     protected void onPause() {
-    	super.onStop();
+    	super.onPause();
     	
     	// When paused, save out the current data
     	mItemManager.saveTodoItemList();
@@ -111,9 +102,11 @@ public class MainActivity extends ActionBarActivity {
         	mViewPager.setCurrentItem(1);
         	return true;
         } else if (id == R.id.action_new_todo) {
-        	// TODO: Go into a new action
-        	Log.i("test", "Create new todo");
-        	Intent startNew = 
+        	// Go into the "new/edit todo" activity
+        	Intent newItemIntent = new Intent(this, NewTodoItemActivity.class);
+        	// ITEMID = (-1) --> Make a new item rather than use an existing one
+        	newItemIntent.putExtra(NewTodoItemActivity.EXTRA_ITEMID, NewTodoItemActivity.ITEMID_NEWITEM);
+        	startActivity(newItemIntent);
         	return true;
         }
         return super.onOptionsItemSelected(item);

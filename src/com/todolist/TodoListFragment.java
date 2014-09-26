@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.todolist.TodoItemManager.UpdatedListener;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -103,15 +104,22 @@ public class TodoListFragment extends Fragment {
     // Used by the TodoFragmentListAdapter when the user interacts with items
     public void onDeleteItem(TodoItem item) {
     	mItemManager.removeTodoItem(item);
+    	mItemManager.saveTodoItemList();
     }
     public void onEditItem(TodoItem item) {
-    	System.out.println("Edit item");
-    	// TODO: Bring up an edit item activity
-    	
+    	Intent newItemIntent = new Intent(getActivity(), NewTodoItemActivity.class);
+    	newItemIntent.putExtra(NewTodoItemActivity.EXTRA_ITEMID, item.getId());
+    	startActivity(newItemIntent);
     }
     public void onArchiveItem(TodoItem item) {
     	item.setArchived(!item.isArchived());
     	mItemManager.markTodoItemDirty(item);
+    	mItemManager.saveTodoItemList();
+    }
+    public void onSetDone(TodoItem item, boolean isDone) {
+    	item.setDone(isDone);
+    	mItemManager.markTodoItemDirty(item);
+    	mItemManager.saveTodoItemList();
     }
     
     @Override

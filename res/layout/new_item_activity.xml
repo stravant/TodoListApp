@@ -1,15 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/new_item_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    tools:context="com.todolist.NewTodoItemActivit">
+    android:orientation="vertical"
+    tools:context="com.todolist.NewTodoItemActivit" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/new_item_header_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -18,17 +16,72 @@
         android:text="Create New Todo"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <EditText
-        android:id="@+id/editText1"
+    <TextView
+        android:id="@+id/new_item_title_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="95dp"
-        android:ems="10"
-        android:inputType="textMultiLine" 
-		android:text="Test">
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/new_item_header_text"
+        android:layout_marginLeft="10dp"
+        android:text="Todo Title:"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <EditText
+        android:id="@+id/new_item_title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/new_item_title_label"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/new_item_title_label"
+        android:layout_marginRight="10dp"
+        android:ems="10" >
+
         <requestFocus />
     </EditText>
+
+    <TextView
+        android:id="@+id/new_item_body_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/new_item_title_label"
+        android:layout_below="@+id/new_item_title_text"
+        android:text="Todo Body:"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <EditText
+        android:id="@+id/new_item_body_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/new_item_title_text"
+        android:layout_alignRight="@+id/new_item_title_text"
+        android:layout_below="@+id/new_item_body_label"
+        android:ems="10"
+        android:inputType="textMultiLine" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal" >
+        
+        <Button
+            android:id="@+id/new_item_done_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Done" />
+       
+        <Button
+            android:id="@+id/new_item_clear_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Clear" />
+
+    </LinearLayout>
 
 </RelativeLayout>
