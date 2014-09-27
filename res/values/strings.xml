@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">TodoListApp</string>
     <string name="title_mainlist">Todos</string>
     <string name="title_archivelist">Archived Todos</string>
     <string name="hello_world">Hello world!</string>
+    <string name="action_email">Export TodoList via Email</string>
+    <string name="title_activity_email_export">EmailExportActivity</string>
     <string name="action_settings">Settings</string>
+
 </resources>

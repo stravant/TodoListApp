@@ -3,20 +3,22 @@
     tools:context="com.todolist.MainActivity" >
 
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings" />
+        android:id="@+id/action_email"
+        android:title="@string/action_email" />
     
     <item
         android:id="@+id/action_todo_list"
-        android:title="Todos" />
+        android:title="Todos" 
+        android:showAsAction="always" />
 
     <item
         android:id="@+id/action_archive_list"
-        android:title="Archived Todos" />
+        android:title="Archived Todos" 
+        android:showAsAction="always" />
 
     <item
         android:id="@+id/action_new_todo"
-        android:title="+New Todo" />
+        android:title="+New Todo" 
+        android:showAsAction="always" />
     
 </menu>

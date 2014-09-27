@@ -1,9 +1,8 @@
 package com.todolist;
 
 import java.security.InvalidParameterException;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+
+import com.todolist.TodoItemManager.IOFailedListener;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -12,11 +11,17 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
+/*
+ * The main activity. Contains a Two-paged display that has a page each
+ * for the currently active todo items, and the archived todo items. The
+ * pages can be switch between via the ActionBar, or by swiping side to
+ * side.
+ */
 public class MainActivity extends FragmentActivity {
 	// The main view for our activity, which is a pager
 	// between a main page of our active todos, and separate page
@@ -34,11 +39,11 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        // Set the title
+        // Set the title (Done here as I was considering making it dynamic)
         setTitle("Todo!");
         
         // Set up our state
-        mDataStore = new TodoItemDataStore(this, "todo_data.sav");
+        mDataStore = new TodoItemDataStore(this, TodoItemDataStore.DEFAULT_SAVE_FILE);
         mItemManager = new TodoItemManager(mDataStore);
         
         // Create the main UI
@@ -50,6 +55,13 @@ public class MainActivity extends FragmentActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager)findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        
+        // Set up a simple toast to monitor when a data store load fails
+        mItemManager.addLoadFailedListener(new IOFailedListener() {
+			public void onIOFailed() {
+				Toast.makeText(MainActivity.this, "Failed to load Todos", Toast.LENGTH_SHORT).show();
+			}
+		});
     }
     
     
@@ -85,33 +97,43 @@ public class MainActivity extends FragmentActivity {
         return true;
     }
 
+    /*
+     * Handle the main Menu items, to switch between the two main todo 
+     * lists, add a new todo, and export the list via email.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_email) {
+        	// User wants to export via email, start the Email activity
+        	startActivity(new Intent(this, EmailExportActivity.class));
             return true;
         } else if (id == R.id.action_todo_list) {
-        	// Go to todo list
+        	// User wants to go to the main todo list
         	mViewPager.setCurrentItem(0);
         	return true;
         } else if (id == R.id.action_archive_list) {
-        	// Go to archived list
+        	// User wants to go to the archived todo list
         	mViewPager.setCurrentItem(1);
         	return true;
         } else if (id == R.id.action_new_todo) {
         	// Go into the "new/edit todo" activity
-        	Intent newItemIntent = new Intent(this, NewTodoItemActivity.class);
+        	Intent newItemIntent = new Intent(this, NewOrEditTodoItemActivity.class);
         	// ITEMID = (-1) --> Make a new item rather than use an existing one
-        	newItemIntent.putExtra(NewTodoItemActivity.EXTRA_ITEMID, NewTodoItemActivity.ITEMID_NEWITEM);
+        	newItemIntent.putExtra(NewOrEditTodoItemActivity.EXTRA_ITEMID, NewOrEditTodoItemActivity.ITEMID_NEWITEM);
         	startActivity(newItemIntent);
         	return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    /*
+     * A PagerAdapter which specifies the two pages in the main view,
+     * the main todo list (index=0), and the archived todo list (index=1).
+     */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -121,12 +143,14 @@ public class MainActivity extends FragmentActivity {
         public Fragment getItem(int position) {
         	if (position == 0) {
 	            return new TodoListFragment(getPageTitle(position).toString(), mItemManager, new TodoListFragment.TodoListFilter() {
+	            	// Filter for the main page list, the non-archived items.
 					public boolean filter(TodoItem item) {
 						return !item.isArchived(); // true --> show item
 					}
 				});
         	} else if (position == 1) {
 	            return new TodoListFragment(getPageTitle(position).toString(), mItemManager, new TodoListFragment.TodoListFilter() {
+	            	// Filter for the archive page list, the archived items.
 					public boolean filter(TodoItem item) {
 						return item.isArchived(); // true --> show item
 					}

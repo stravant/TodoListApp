@@ -3,8 +3,6 @@ package com.todolist;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -75,7 +73,6 @@ public class TodoFragmentListAdapter extends ArrayAdapter<TodoItem> {
 		TextView entryTitle = ((TextView)convertView.findViewById(R.id.entry_title));
 		TextView entryBody = ((TextView)convertView.findViewById(R.id.entry_body));
 		ViewGroup editControlSet = ((ViewGroup)convertView.findViewById(R.id.entry_edit_control_set));
-		ViewGroup mainInfoContainer = ((ViewGroup)convertView.findViewById(R.id.entry_main_info));
 		
 		// Set the basic stuff
 		doneCheckbox.setChecked(item.isDone());

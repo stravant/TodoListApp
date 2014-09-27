@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name="com.todolist.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,9 +22,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity 
-            android:name=".NewTodoItemActivity"
-            android:label="Add a new Todo Item">
+        <activity
+            android:name="com.todolist.NewOrEditTodoItemActivity"
+            android:label="Add a new Todo Item" 
+            android:parentActivityName="com.todolist.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.todolist.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.todolist.EmailExportActivity"
+            android:label="@string/title_activity_email_export"
+            android:parentActivityName="com.todolist.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.todolist.MainActivity" />
         </activity>
     </application>
 
